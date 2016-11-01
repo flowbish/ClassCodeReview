@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Request from 'react-http-request';
 import logo from './logo.svg';
 import './App.css';
+var Highlight = require('react-highlight');
 
 class App extends Component {
   render() {
