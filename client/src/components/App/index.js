@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import AppBar from 'material-ui/AppBar';
 import Request from 'react-http-request';
 var Highlight = require('react-highlight');
-import logo from './logo.svg';
 import './style.css';
 
 class App extends Component {
+    /* Boiler Plate to set the theme to MUI for material UI */
+    static childContextTypes = {
+        muiTheme: React.PropTypes.object
+    }
+    getChildContext() {
+        return {
+            muiTheme: getMuiTheme()
+        }
+    }
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-      <Request
-        url='/api/file'
+        <AppBar title="Class Code Review" iconClassNameRight="muidocs-icon-navigation-expand-more"/>
+        <h3>sqlite/master/src/main.c</h3>
+        <hr/>
+        <Request 
+        url='https://raw.githubusercontent.com/mackyle/sqlite/master/src/main.c'
         method='get'
         accept='text/plain'
         verbose={true}
@@ -27,7 +36,7 @@ class App extends Component {
                 }
             }
         }
-      </Request>
+        </Request>
       </div>
     );
   }
