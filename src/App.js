@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Request from 'react-http-request';
 import logo from './logo.svg';
 import './App.css';
 
@@ -13,13 +14,23 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-            <pre>
-            <code class="C++">{"struct node {void *data; struct node *next; };\
-int i = 0;\
-int main(int argc, char[] *argv) {\
-    return 0;\
-}"}</code>
-            </pre>
+      <pre><code class="cpp">hello</code></pre>
+      <Request
+        url='https://api.github.com/users/mbasso'
+        method='get'
+        accept='application/json'
+        verbose={true}
+        >
+        {
+            ({error, result, loading}) => {
+                if (loading) {
+                    return <div>loading...</div>;
+                } else {
+                    return <div>{JSON.stringify(result)}</div>;
+                }
+            }
+        }
+      </Request>
       </div>
     );
   }
