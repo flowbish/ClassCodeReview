@@ -12,10 +12,6 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      <pre><code class="cpp">hello</code></pre>
       <Request
         url='https://api.github.com/users/mbasso'
         method='get'
@@ -27,7 +23,7 @@ class App extends Component {
                 if (loading) {
                     return <div>loading...</div>;
                 } else {
-                    return <div>{JSON.stringify(result)}</div>;
+                    return <Highlight>{JSON.stringify(result)}</Highlight>;
                 }
             }
         }
