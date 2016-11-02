@@ -21,8 +21,8 @@ class App extends Component {
         <AppBar title="Class Code Review" iconClassNameRight="muidocs-icon-navigation-expand-more"/>
         <h3>sqlite/master/src/main.c</h3>
         <hr/>
-        <Request 
-        url='https://raw.githubusercontent.com/mackyle/sqlite/master/src/main.c'
+        <Request
+        url='/api/file?path=../../tmp/bezier.c'
         method='get'
         accept='text/plain'
         verbose={true}
@@ -32,7 +32,16 @@ class App extends Component {
                 if (loading) {
                     return <div>loading...</div>;
                 } else {
-                    return <Highlight>{result.text}</Highlight>;
+                    if (result.body.error == null) {
+                        return <Highlight>{result.body.contents}</Highlight>;
+                    } else {
+                        return (
+                            <div>
+                                <h1>ERROR</h1>
+                                <p>{result.text}</p>
+                            </div>
+                        );
+                    }
                 }
             }
         }

@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const fs = require('fs');
 
 app.set('port', (process.env.PORT || 3001));
 
@@ -9,9 +10,21 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.get('/api/file', (req, res) => {
-    res.json({
-      error: 'success',
-    });
+    const path = req.query.path;
+    if (path != null) {
+        fs.readFile(path, 'utf8', function read(err, data) {
+            if (err) {
+                res.json({ error: `unable to load file "${path}"` });
+            } else {
+                res.json({ contents: data });
+            }
+        });
+    }
+    else {
+        res.json({
+            error: 'no path specified',
+        });
+    }
     return;
 });
 
