@@ -13,7 +13,7 @@ class App extends Component {
           <h2>Welcome to React</h2>
         </div>
       <Request
-        url='https://raw.githubusercontent.com/mackyle/sqlite/master/src/main.c'
+        url='/api/file'
         method='get'
         accept='text/plain'
         verbose={true}
