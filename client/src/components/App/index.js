@@ -22,7 +22,7 @@ class App extends Component {
         <h3>sqlite/master/src/main.c</h3>
         <hr/>
         <Request
-        url='/api/file?path=../../tmp/bezier.c'
+        url='/api/file?path=../../tmp/bezier_bad.c&format=google'
         method='get'
         accept='text/plain'
         verbose={true}
