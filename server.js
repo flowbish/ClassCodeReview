@@ -21,11 +21,8 @@ app.get('/api/file', (req, res) => {
         });
     }
     else {
-        res.json({
-            error: 'no path specified',
-        });
+        res.json({ error: 'no path specified' });
     }
-    return;
 });
 
 app.listen(app.get('port'), () => {
