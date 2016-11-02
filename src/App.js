@@ -13,9 +13,9 @@ class App extends Component {
           <h2>Welcome to React</h2>
         </div>
       <Request
-        url='https://api.github.com/users/mbasso'
+        url='https://raw.githubusercontent.com/mackyle/sqlite/master/src/main.c'
         method='get'
-        accept='application/json'
+        accept='text/plain'
         verbose={true}
         >
         {
@@ -23,7 +23,7 @@ class App extends Component {
                 if (loading) {
                     return <div>loading...</div>;
                 } else {
-                    return <Highlight>{JSON.stringify(result)}</Highlight>;
+                    return <Highlight>{result.text}</Highlight>;
                 }
             }
         }
