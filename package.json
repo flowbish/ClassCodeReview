@@ -6,16 +6,21 @@
   "dependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
+    "chai": "^3.5.0",
     "express": "^4.14.0",
     "foreman": "^2.0.0",
     "memory-streams": "^0.1.0",
     "morgan": "^1.7.0",
+    "node-svn-ultimate": "^1.0.3",
     "tmp": "0.0.30"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "^3.1.2"
+  },
   "scripts": {
     "start": "nf start -p 3000",
-    "server": "./node_modules/.bin/babel-node server.js"
+    "test": "mocha",
+    "server": "babel-node server"
   },
   "repository": {
     "type": "git",
