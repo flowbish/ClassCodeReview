@@ -5,7 +5,7 @@ import Request from 'react-http-request';
 var Highlight = require('react-highlight');
 import './style.css';
 
-class App extends Component {
+class File extends Component {
     /* Boiler Plate to set the theme to MUI for material UI */
     static childContextTypes = {
         muiTheme: React.PropTypes.object
@@ -51,4 +51,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default File;
