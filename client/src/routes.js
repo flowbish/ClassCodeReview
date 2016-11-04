@@ -5,10 +5,10 @@ import ViewFile from './components/ViewFile';
 import NotFound from './components/NotFound';
 
 const Routes = (props) => (
-        <Router {...props}>
-        <Route path="/" component={ViewFile} />
-        <Route path="*" component={NotFound} />
-        </Router>
+  <Router {...props}>
+    <Route path="/" component={ViewFile} />
+    <Route path="*" component={NotFound} />
+  </Router>
 );
 
 export default Routes;
