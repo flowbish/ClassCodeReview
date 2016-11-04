@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Request from 'react-http-request';
-var Highlight = require('react-highlight');
+import Highlight from 'react-highlight';
 
 class File extends Component {
     render() {

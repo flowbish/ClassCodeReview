@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './style.css';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import AppBar from 'material-ui/AppBar';
 
-class App extends Component {
+class NotFound extends Component {
+    /* Boiler Plate to set the theme to MUI for material UI */
+    static childContextTypes = {
+        muiTheme: React.PropTypes.object
+    }
+    getChildContext() {
+        return {
+            muiTheme: getMuiTheme()
+        }
+    }
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+        <div className="ViewFile">
+            <AppBar title="Class Code Review" iconClassNameRight="muidocs-icon-navigation-expand-more"/>
+            <h3>Content not found.</h3>
         </div>
-            <p>
-            CONTENT NOT FOUND
-            </p>
-      </div>
     );
   }
 }
 
-export default App;
+export default NotFound;
