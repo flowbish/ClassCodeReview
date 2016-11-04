@@ -1,0 +1,10 @@
+.ViewFile {
+  text-align: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+code {
+    text-align: left;
+    margin:0 auto;
+    width: 60%;
+}
