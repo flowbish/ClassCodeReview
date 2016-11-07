@@ -4,22 +4,13 @@ import Avatar from 'material-ui/Avatar';
 import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 
+import './style.css';
+
 class TopNav extends Component {
   render() {
     return (
       <div className="TopNav">
-        <AppBar title="Class Code Review" iconClassNameRight="muidocs-icon-navigation-expand-more"/>
-		<List>
-			<ListItem
-			  disabled={true}
-			  leftAvatar={
-				<Avatar src={this.props.avatar} />
-			  }
-			>
-        	sqlite/master/src/main.c
-			</ListItem>
-		</List>
-        <hr/>
+        <AppBar title={this.props.title} iconElementLeft={<Avatar src={this.props.avatar}/>}/>
       </div>
     );
   }

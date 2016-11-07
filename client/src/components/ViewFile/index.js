@@ -23,7 +23,7 @@ class ViewFile extends Component {
   render() {
     return (
       <div className="ViewFile">
-        <TopNav avatar={avatar}/>
+        <TopNav avatar={avatar} title="sqllite.c"/>
         <File url={url}/>
       </div>
     );
