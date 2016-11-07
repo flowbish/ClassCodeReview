@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AppBar from 'material-ui/AppBar';
 import Avatar from 'material-ui/Avatar';
 import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
@@ -12,7 +13,7 @@ class TopNav extends Component {
 			<ListItem
 			  disabled={true}
 			  leftAvatar={
-				<Avatar src="https://avatars0.githubusercontent.com/u/4381236"/>
+				<Avatar src={this.props.avatar} />
 			  }
 			>
         	sqlite/master/src/main.c

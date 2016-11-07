@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import AppBar from 'material-ui/AppBar';
 
 import File from '../File';
+import TopNav from '../TopNav';
 import './style.css';
 
 const url = '/api/file?path=../../tmp/bezier_bad.c&format=google';
+const avatar = 'https://avatars0.githubusercontent.com/u/4381236';
 
 class ViewFile extends Component {
   /* Boiler Plate to set the theme to MUI for material UI */
@@ -22,9 +23,7 @@ class ViewFile extends Component {
   render() {
     return (
       <div className="ViewFile">
-        <AppBar title="Class Code Review" iconClassNameRight="muidocs-icon-navigation-expand-more"/>
-        <h3>{url}</h3>
-        <hr/>
+        <TopNav avatar={avatar}/>
         <File url={url}/>
       </div>
     );
