@@ -41,6 +41,30 @@ app.get('/api/file', (req, res) => {
   }
 });
 
+function list_files(path, cb) {
+  if (process.env.SVN_URL) {
+    svn.list_files(process.env.SVN_URL + '/' + path, cb);
+  } else {
+    cb('not implemented', null);
+  }
+}
+
+app.get('/api/list', (req, res) => {
+  const path = req.query.path;
+  const format = req.query.format;
+  if (path != null) {
+    list_files(path, (err, files) => {
+      if (err) {
+        res.json({ error: 'unable to list file', details: err });
+      } else {
+        res.json({ contents: files });
+      }
+    });
+  } else {
+    res.json({ error: 'must specify a path' });
+  }
+});
+
 app.set('port', (process.env.PORT || 3001));
 
 if (process.env.NODE_ENV === 'production') {
