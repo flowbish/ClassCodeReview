@@ -3,7 +3,139 @@ import { expect } from 'chai';
 
 import Svn from '../server/svn.js';
 
-const test_directory_list = {
+const test_list_files_input = {
+  "list": {
+    "$": { "path": "https://example.com/svn" },
+    "entry": [
+      {
+        "$": { "kind": "file" },
+        "name": "file1",
+        "size": "2710",
+        "commit": {
+          "$": { "revision": "58300" },
+          "author": "kocheva2",
+          "date": "2016-10-24T05:01:37.060542Z"
+        }
+      },
+      {
+        "$": { "kind": "dir" },
+        "name": "dir1",
+        "commit": {
+          "$": { "revision": "58300" },
+          "author": "kocheva2",
+          "date": "2016-10-24T05:01:37.060542Z"
+        }
+      },
+      {
+        "$": { "kind": "dir" },
+        "name": "dir1/dir1.1",
+        "commit": {
+          "$": { "revision": "58300" },
+          "author": "kocheva2",
+          "date": "2016-10-24T05:01:37.060542Z"
+        }
+      },
+      {
+        "$": { "kind": "file" },
+        "name": "dir1/dir1.1/file1",
+        "size": "16",
+        "commit": {
+          "$": { "revision": "58300" },
+          "author": "kocheva2",
+          "date": "2016-10-24T05:01:37.060542Z"
+        }
+      },
+      {
+        "$": { "kind": "file" },
+        "name": "dir1/dir1.1/file1.1",
+        "size": "16",
+        "commit": {
+          "$": { "revision": "58300" },
+          "author": "kocheva2",
+          "date": "2016-10-24T05:01:37.060542Z"
+        }
+      },
+      {
+        "$": { "kind": "dir" },
+        "name": "dir2",
+        "commit": {
+          "$": { "revision": "58300" },
+          "author": "kocheva2",
+          "date": "2016-10-24T05:01:37.060542Z"
+        }
+      },
+      {
+        "$": { "kind": "file" },
+        "name": "dir2/file2",
+        "size": "16",
+        "commit": {
+          "$": { "revision": "58300" },
+          "author": "kocheva2",
+          "date": "2016-10-24T05:01:37.060542Z"
+        }
+      }
+    ]
+  }
+};
+
+const test_list_files_output = [
+  {
+    type: 'file',
+    path: 'file1',
+    name: 'file1',
+    revision: '58300',
+    date: '2016-10-24T05:01:37.060542Z',
+    size: '2710'
+  },
+  {
+    type: 'dir',
+    path: 'dir1',
+    name: 'dir1',
+    revision: '58300',
+    date: '2016-10-24T05:01:37.060542Z'
+  },
+  {
+    type: 'dir',
+    path: 'dir1/dir1.1',
+    name: 'dir1.1',
+    revision: '58300',
+    date: '2016-10-24T05:01:37.060542Z'
+  },
+  {
+    type: 'file',
+    path: 'dir1/dir1.1/file1',
+    name: 'file1',
+    revision: '58300',
+    date: '2016-10-24T05:01:37.060542Z',
+    size: '16'
+  },
+  {
+    type: 'file',
+    path: 'dir1/dir1.1/file1.1',
+    name: 'file1.1',
+    revision: '58300',
+    date: '2016-10-24T05:01:37.060542Z',
+    size: '16'
+  },
+  {
+    type: 'dir',
+    path: 'dir2',
+    name: 'dir2',
+    revision: '58300',
+    date: '2016-10-24T05:01:37.060542Z'
+  },
+  {
+    type: 'file',
+    path: 'dir2/file2',
+    name: 'file2',
+    revision: '58300',
+    date: '2016-10-24T05:01:37.060542Z',
+    size: '16'
+  }
+];
+
+// TODO: make output look like this
+const _test_list_files_output = {
   "dir1": {
     "name": "dir1",
     "type": "dir",
@@ -16,12 +148,14 @@ const test_directory_list = {
             "name": "file1.1",
             "type": "file",
             "revision": "rev1.1",
+            "size": "16",
             "date": "a_date"
           },
           "file1": {
             "name": "file1.1",
             "type": "file",
             "revision": "rev1",
+            "size": "16",
             "date": "a_date"
           }
         }
@@ -32,6 +166,7 @@ const test_directory_list = {
     "name": "file1",
     "type": "file",
     "revision": "rev1",
+    "size": "2710",
     "date": "a_date"
   },
   "dir2": {
@@ -42,23 +177,26 @@ const test_directory_list = {
         "name": "file2",
         "type": "file",
         "revision": "rev2",
+        "size": "16",
         "date": "b_date"
       }
     }
   }
 };
 
+const test_get_file_input = "This is the contents of a file!";
+
 // Mock svn so we don't have to download anything to test
-const svn = new Svn({ username: 'pmsmith2'});
-simple.mock(svn, 'get_file').callbackWith(null, 'test');
-simple.mock(svn, 'list_files').callbackWith(null, test_directory_list);
+var _svn = {};
+simple.mock(_svn, 'list').callbackWith(null, test_list_files_input);
+simple.mock(_svn, 'cat').callbackWith(null, test_get_file_input);
+const svn = new Svn({ username: 'pmsmith2', depth: 'infinity' }, _svn);
 
 describe('svn', function() {
   describe('load_svn_file', function() {
     var data, err;
 
     before(function(done) {
-      this.timeout(10000);
       svn.get_file(
         'https://subversion.ews.illinois.edu/svn/fa16-cs241/_shared/password_cracker/cracker1.c',
         function(_err, _data) {
@@ -70,7 +208,8 @@ describe('svn', function() {
 
     it('should be able to load a file from svn', function() {
       expect(err).to.be.null;
-      expect(data).to.be.ok;
+      expect(data).to.be.a("string");
+      expect(data).to.equal(test_get_file_input);
     });
   });
 
@@ -78,9 +217,8 @@ describe('svn', function() {
     var data, err;
 
     before(function(done) {
-      this.timeout(10000);
       svn.list_files(
-        'https://subversion.ews.illinois.edu/svn/fa16-cs241/_shared/',
+        'https://subversion.ews.illinois.edu/svn/fa16-cs241/_shared/parmake',
         function(_err, _data) {
           data = _data;
           err = _err;
@@ -90,7 +228,8 @@ describe('svn', function() {
 
     it('should be able to list files from svn directory', function() {
       expect(err).to.be.null;
-      expect(data).to.be.ok;
+      expect(data).to.be.an('array');
+      expect(data).to.deep.equal(test_list_files_output);
     });
   });
 });
