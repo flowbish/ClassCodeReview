@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import Avatar from 'material-ui/Avatar';
-import List from 'material-ui/List/List';
-import ListItem from 'material-ui/List/ListItem';
 
 import './style.css';
 
