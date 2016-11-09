@@ -1,21 +1,11 @@
-const express = require('express');
-const app = express();
-const fs = require('fs');
-const tmp = require('tmp');
-const spawn = require('child_process').spawn;
-const streams = require('memory-streams');
+import express from 'express';
+import fs from 'fs';
 
-var clang_format = function(contents, style, callback) {
-  const args = [`-style=${style}`];
-  const proc = spawn('clang-format', args, { maxBuffer: 1000000 });
-  var writer = new streams.WritableStream();
-  proc.stdin.write(contents);
-  proc.stdin.end();
-  proc.stdout.pipe(writer);
-  proc.stdout.on('end', () => {
-    callback(writer.toString('utf8'));
-  })
-}
+import Svn from './svn.js';
+import clang_format from './clang_format.js';
+
+const app = express();
+const svn = new Svn();
 
 app.get('/api/file', (req, res) => {
   const path = req.query.path;
@@ -26,8 +16,12 @@ app.get('/api/file', (req, res) => {
         res.json({ error: `unable to load file "${path}"` });
       } else {
         if (format != null && format != 'none') {
-          clang_format(data, format, function(contents) {
-            res.json({ contents: contents });
+          clang_format(data, format, function(err, contents) {
+            if (err == null) {
+              res.json({ contents: contents });
+            } else {
+              res.json({ error: 'error formatting contents' });
+            }
           });
         } else {
           res.json({ contents: data });
