@@ -53,8 +53,9 @@ class Svn {
     this.svn.list(url, this.params, (err, data) => {
       if (err != null) {
         cb(err, null);
+      } else {
+        cb(null, transform_svn_list_data(data));
       }
-      cb(null, transform_svn_list_data(data));
     });
   }
 

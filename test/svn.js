@@ -242,4 +242,29 @@ describe('svn', function() {
       done();
     });
   });
+
+  describe('list_files', function() {
+    var data, err;
+
+    before(function(done) {
+      simple.mock(_svn, 'list').callbackWith('ERROR', null);
+      svn.list_files(
+        'some/path',
+        function(_err, _data) {
+          data = _data;
+          err = _err;
+          done();
+        });
+    });
+
+    it('should be able to handle invalid paths', function() {
+      expect(err).to.be.ok;
+      expect(data).to.be.null;
+    });
+
+    after(function(done) {
+      simple.restore(_svn, 'list');
+      done();
+    });
+  });
 });
