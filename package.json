@@ -13,14 +13,16 @@
     "memory-streams": "^0.1.0",
     "morgan": "^1.7.0",
     "node-svn-ultimate": "^1.0.3",
+    "simple-mock": "^0.7.2",
     "tmp": "0.0.30"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
     "mocha": "^3.1.2"
   },
   "scripts": {
     "start": "nf start -p 3000",
-    "test": "mocha",
+    "test": " mocha --compilers js:babel-core/register --require babel-polyfill",
     "server": "babel-node server"
   },
   "repository": {

@@ -1,9 +1,21 @@
 var svn = require('node-svn-ultimate').commands;
 
-module.exports.file_download = function(url, params, cb) {
-  svn.cat(url, params, cb)
+class Svn {
+  constructor(params) {
+    this.params = params;
+  }
+
+  list_files(url, cb) {
+    svn.list(url, this.params, cb);
+  }
+
+  get_file(url, cb) {
+    svn.cat(url, this.params, cb);
+  }
+
+  get_info(url, cb) {
+    svn.info(url, this.params, cb);
+  }
 }
 
-module.exports.file_info = function(url, params, cb) {
-  svn.info(url, params, cb)
-}
+export default Svn;
