@@ -7,20 +7,28 @@ import clang_format from './clang_format.js';
 const app = express();
 const svn = new Svn();
 
+function load_file(path, cb) {
+  if (process.env.SVN_URL) {
+    svn.get_file(process.env.SVN_URL + '/' + path, cb);
+  } else {
+    fs.readFile(path, 'utf8', cb);
+  }
+}
+
 app.get('/api/file', (req, res) => {
   const path = req.query.path;
   const format = req.query.format;
   if (path != null) {
-    fs.readFile(path, 'utf8', function read(err, data) {
+    load_file(path, (err, data) => {
       if (err) {
-        res.json({ error: `unable to load file "${path}"` });
+        res.json({ error: `unable to load file`, details: err });
       } else {
         if (format != null && format != 'none') {
-          clang_format(data, format, function(err, contents) {
-            if (err == null) {
-              res.json({ contents: contents });
+          clang_format(data, format, (err, contents) => {
+            if (err) {
+              res.json({ error: 'error formatting contents', details: err });
             } else {
-              res.json({ error: 'error formatting contents' });
+              res.json({ contents: contents });
             }
           });
         } else {
@@ -29,7 +37,7 @@ app.get('/api/file', (req, res) => {
       }
     });
   } else {
-    res.json({ error: 'no path specified' });
+    res.json({ error: 'must specify a path' });
   }
 });
 
