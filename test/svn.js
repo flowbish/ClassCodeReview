@@ -188,17 +188,16 @@ const test_get_file_input = "This is the contents of a file!";
 
 // Mock svn so we don't have to download anything to test
 var _svn = {};
-simple.mock(_svn, 'list').callbackWith(null, test_list_files_input);
-simple.mock(_svn, 'cat').callbackWith(null, test_get_file_input);
 const svn = new Svn({ username: 'pmsmith2', depth: 'infinity' }, _svn);
 
 describe('svn', function() {
-  describe('load_svn_file', function() {
+  describe('get_file', function() {
     var data, err;
 
     before(function(done) {
+      simple.mock(_svn, 'cat').callbackWith(null, test_get_file_input);
       svn.get_file(
-        'https://subversion.ews.illinois.edu/svn/fa16-cs241/_shared/password_cracker/cracker1.c',
+        'some/path',
         function(_err, _data) {
           data = _data;
           err = _err;
@@ -211,14 +210,20 @@ describe('svn', function() {
       expect(data).to.be.a("string");
       expect(data).to.equal(test_get_file_input);
     });
+
+    after(function(done) {
+      simple.restore(_svn, 'cat');
+      done();
+    });
   });
 
-  describe('list_svn_dir', function() {
+  describe('list_files', function() {
     var data, err;
 
     before(function(done) {
+      simple.mock(_svn, 'list').callbackWith(null, test_list_files_input);
       svn.list_files(
-        'https://subversion.ews.illinois.edu/svn/fa16-cs241/_shared/parmake',
+        'some/path',
         function(_err, _data) {
           data = _data;
           err = _err;
@@ -230,6 +235,11 @@ describe('svn', function() {
       expect(err).to.be.null;
       expect(data).to.be.an('array');
       expect(data).to.deep.equal(test_list_files_output);
+    });
+
+    after(function(done) {
+      simple.restore(_svn, 'list');
+      done();
     });
   });
 });
