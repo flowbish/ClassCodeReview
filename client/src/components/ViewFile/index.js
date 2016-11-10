@@ -5,7 +5,6 @@ import File from '../File';
 import TopNav from '../TopNav';
 import './style.css';
 
-const url = '/api/file?path=../../tmp/bezier_bad.c&format=google';
 const avatar = 'https://avatars0.githubusercontent.com/u/4381236';
 
 class ViewFile extends Component {
@@ -23,8 +22,8 @@ class ViewFile extends Component {
   render() {
     return (
       <div className="ViewFile">
-        <TopNav avatar={avatar} title="sqllite.c"/>
-        <File url={this.props.location.query.path}/>
+        <TopNav avatar={avatar} title={this.props.location.query.path}/>
+        <File url={"/api/file?path=" + this.props.location.query.path}/>
       </div>
     );
   }

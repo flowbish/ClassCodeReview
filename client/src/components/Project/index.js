@@ -9,11 +9,11 @@ const avatar = 'https://avatars0.githubusercontent.com/u/4381236';
 const url= '/api/list/?path=.';
 
 function buildForest(fs) {
-  var forest = [];
+  var forest = "";
   for(var name in fs) {
-      forest.push(<ol className="tree"><TreeNav data={fs[name]} name={name}/></ol>);
+      forest += `<ol className="tree"><TreeNav data=${fs[name]} name=${name}/></ol>`;
   }
-  return forest;
+  return "<p>hello</p>";
 }
 class Project extends Component {
   /* Boiler Plate to set the theme to MUI for material UI */
@@ -44,7 +44,12 @@ class Project extends Component {
               return <div>loading...</div>;
             } else {
               if (result.body.error == null) {
-                return buildForest(result.body);
+                const fs = result.body.contents;
+                return <div> {
+                  Object.keys(fs).map((name) => {
+                    return <ol className="tree"><TreeNav data={fs[name]} name={name}/></ol>;
+                  })
+                } </div>;
               } else {
                 return <div>Unable to load url: {this.props.url}></div>;
               }
