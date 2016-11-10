@@ -78,107 +78,56 @@ const test_list_files_input = {
   }
 };
 
-const test_list_files_output = [
-  {
-    type: 'file',
-    path: 'file1',
-    name: 'file1',
-    revision: '58300',
-    date: '2016-10-24T05:01:37.060542Z',
-    size: '2710'
-  },
-  {
-    type: 'dir',
-    path: 'dir1',
-    name: 'dir1',
-    revision: '58300',
-    date: '2016-10-24T05:01:37.060542Z'
-  },
-  {
-    type: 'dir',
-    path: 'dir1/dir1.1',
-    name: 'dir1.1',
-    revision: '58300',
-    date: '2016-10-24T05:01:37.060542Z'
-  },
-  {
-    type: 'file',
-    path: 'dir1/dir1.1/file1',
-    name: 'file1',
-    revision: '58300',
-    date: '2016-10-24T05:01:37.060542Z',
-    size: '16'
-  },
-  {
-    type: 'file',
-    path: 'dir1/dir1.1/file1.1',
-    name: 'file1.1',
-    revision: '58300',
-    date: '2016-10-24T05:01:37.060542Z',
-    size: '16'
-  },
-  {
-    type: 'dir',
-    path: 'dir2',
-    name: 'dir2',
-    revision: '58300',
-    date: '2016-10-24T05:01:37.060542Z'
-  },
-  {
-    type: 'file',
-    path: 'dir2/file2',
-    name: 'file2',
-    revision: '58300',
-    date: '2016-10-24T05:01:37.060542Z',
-    size: '16'
-  }
-];
-
-// TODO: make output look like this
-const _test_list_files_output = {
+const test_list_files_output = {
   "dir1": {
-    "name": "dir1",
+    "path": "dir1",
     "type": "dir",
+    "revision": '58300',
+    "date": '2016-10-24T05:01:37.060542Z',
     "files": {
       "dir1.1": {
-        "name": "dir1.1",
+        "path": "dir1/dir1.1",
         "type": "dir",
+        "revision": '58300',
+        "date": '2016-10-24T05:01:37.060542Z',
         "files": {
           "file1.1": {
-            "name": "file1.1",
+            "path": "dir1/dir1.1/file1.1",
             "type": "file",
-            "revision": "rev1.1",
-            "size": "16",
-            "date": "a_date"
+            "revision": '58300',
+            "date": '2016-10-24T05:01:37.060542Z',
+            "size": "16"
           },
           "file1": {
-            "name": "file1.1",
+            "path": "dir1/dir1.1/file1",
             "type": "file",
-            "revision": "rev1",
-            "size": "16",
-            "date": "a_date"
+            "revision": '58300',
+            "date": '2016-10-24T05:01:37.060542Z',
+            "size": "16"
           }
         }
       }
     }
   },
   "file1": {
-    "name": "file1",
+    "path": "file1",
     "type": "file",
-    "revision": "rev1",
-    "size": "2710",
-    "date": "a_date"
+    "revision": '58300',
+    "date": '2016-10-24T05:01:37.060542Z',
+    "size": "2710"
   },
   "dir2": {
-    "name": "dir2",
+    "path": "dir2",
     "type": "dir",
+    revision: '58300',
+    date: '2016-10-24T05:01:37.060542Z',
     "files": {
       "file2": {
-        "name": "file2",
+        "path": "dir2/file2",
         "type": "file",
-        "revision": "rev2",
-        "size": "16",
-        "date": "b_date"
+        "revision": '58300',
+        "date": '2016-10-24T05:01:37.060542Z',
+        "size": "16"
       }
     }
   }
@@ -233,7 +182,7 @@ describe('svn', function() {
 
     it('should be able to list files from svn directory', function() {
       expect(err).to.be.null;
-      expect(data).to.be.an('array');
+      expect(data).to.be.ok;
       expect(data).to.deep.equal(test_list_files_output);
     });
 

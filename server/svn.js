@@ -25,20 +25,31 @@ function normalize_svn_list_element(elem) {
   var new_elem = {};
   new_elem.type = elem['$'].kind;
   new_elem.path = elem.name;
-  new_elem.name = filename(elem.name);
   new_elem.revision = elem.commit['$'].revision;
   new_elem.date = elem.commit.date;
   if (elem['$'].kind == "file") {
     new_elem.size = elem.size;
+  } else {
+    new_elem.files = {};
   }
   return new_elem;
 }
 
+function insert_entry(base, entry) {
+  var path_components = split_path(entry.path);
+  var current = base;
+  while (path_components.length > 1) {
+    const dir = path_components.shift();
+    current = current[dir].files;
+  }
+  current[path_components.shift()] = entry;
+}
+
 function transform_svn_list_data(data) {
-  var dir = [];
+  var dir = {};
   for (var entry of data.list.entry) {
     entry = normalize_svn_list_element(entry);
-    dir.push(entry);
+    insert_entry(dir, entry);
   }
   return dir;
 }
