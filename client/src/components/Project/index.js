@@ -6,60 +6,15 @@ import TopNav from '../TopNav';
 import TreeNav from '../TreeNav';
 
 const avatar = 'https://avatars0.githubusercontent.com/u/4381236';
-const fs = {
-  "dir1": {
-    "path": "dir1",
-    "type": "dir",
-    "revision": '58300',
-    "date": '2016-10-24T05:01:37.060542Z',
-    "files": {
-      "dir1.1": {
-        "path": "dir1/dir1.1",
-        "type": "dir",
-        "revision": '58300',
-        "date": '2016-10-24T05:01:37.060542Z',
-        "files": {
-          "file1.1": {
-            "path": "dir1/dir1.1/file1.1",
-            "type": "file",
-            "revision": '58300',
-            "date": '2016-10-24T05:01:37.060542Z',
-            "size": "16"
-          },
-          "file1": {
-            "path": "dir1/dir1.1/file1",
-            "type": "file",
-            "revision": '58300',
-            "date": '2016-10-24T05:01:37.060542Z',
-            "size": "16"
-          }
-        }
-      }
-    }
-  },
-  "file1": {
-    "path": "file1",
-    "type": "file",
-    "revision": '58300',
-    "date": '2016-10-24T05:01:37.060542Z',
-    "size": "2710"
-  },
-  "dir2": {
-    "path": "dir2",
-    "type": "dir",
-    "revision": '58300',
-    "date": '2016-10-24T05:01:37.060542Z',
-    "files": {
-      "file2": {
-        "path": "dir2/file2",
-        "type": "file",
-        "revision": '58300',
-        "date": '2016-10-24T05:01:37.060542Z',
-        "size": "16"
-      }
-    }
+const url= '/api/list/?path=.';
+
+function buildForest(fs) {
+  var forest = [];
+  for(var name in fs) {
+      forest.push(<ol className="tree"><TreeNav data={fs[name]} name={name}/></ol>);
   }
-}; 
+  return forest;
+}
 class Project extends Component {
   /* Boiler Plate to set the theme to MUI for material UI */
   static childContextTypes = {
@@ -72,16 +27,13 @@ class Project extends Component {
     }
   }
 
+
   render() {
-      var files = [];
-      for(var name in fs) {
-          files.push(<ol className="tree"><TreeNav data={fs[name]} name={name}/></ol>);
-      }
     return (
       <div className="Project">
         <TopNav avatar={avatar} title="Project"/>
-        {/*<Request
-        url='https://api.github.com/users/mbasso'
+        <Request
+        url={url}
         method='get'
         accept='application/json'
         verbose={true}
@@ -92,15 +44,14 @@ class Project extends Component {
               return <div>loading...</div>;
             } else {
               if (result.body.error == null) {
-                return <div>{files}</div>;
+                return buildForest(result.body);
               } else {
                 return <div>Unable to load url: {this.props.url}></div>;
               }
             }
           }
         }
-        </Request>*/}
-        {files}
+        </Request>
       </div>
     );
   }

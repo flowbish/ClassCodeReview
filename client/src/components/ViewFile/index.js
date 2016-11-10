@@ -24,7 +24,7 @@ class ViewFile extends Component {
     return (
       <div className="ViewFile">
         <TopNav avatar={avatar} title="sqllite.c"/>
-        <File url={url}/>
+        <File url={this.props.location.query.path}/>
       </div>
     );
   }
