@@ -32,12 +32,12 @@ class Project extends Component {
   render() {
       var files = [];
       for(var name in fs) {
-          files.push(<TreeNav children={fs[name]} name={name}/>);
+          files.push(<ol className="tree"><TreeNav children={fs[name]} name={name}/></ol>);
       }
     return (
       <div className="Project">
         <TopNav avatar={avatar} title="Project"/>
-        <Request
+        {/*<Request
         url='https://api.github.com/users/mbasso'
         method='get'
         accept='application/json'
@@ -56,7 +56,8 @@ class Project extends Component {
             }
           }
         }
-        </Request>
+        </Request>*/}
+        {files}
       </div>
     );
   }
