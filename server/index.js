@@ -1,33 +1,35 @@
-const express = require('express');
-const app = express();
-const fs = require('fs');
-const tmp = require('tmp');
-const spawn = require('child_process').spawn;
-const streams = require('memory-streams');
+import express from 'express';
+import fs from 'fs';
 
-var clang_format = function(contents, style, callback) {
-  const args = [`-style=${style}`];
-  const proc = spawn('clang-format', args, { maxBuffer: 1000000 });
-  var writer = new streams.WritableStream();
-  proc.stdin.write(contents);
-  proc.stdin.end();
-  proc.stdout.pipe(writer);
-  proc.stdout.on('end', () => {
-    callback(writer.toString('utf8'));
-  })
+import Svn from './svn.js';
+import clang_format from './clang_format.js';
+
+const app = express();
+const svn = new Svn();
+
+function load_file(path, cb) {
+  if (process.env.SVN_URL) {
+    svn.get_file(process.env.SVN_URL + '/' + path, cb);
+  } else {
+    fs.readFile(path, 'utf8', cb);
+  }
 }
 
 app.get('/api/file', (req, res) => {
   const path = req.query.path;
   const format = req.query.format;
   if (path != null) {
-    fs.readFile(path, 'utf8', function read(err, data) {
+    load_file(path, (err, data) => {
       if (err) {
-        res.json({ error: `unable to load file "${path}"` });
+        res.json({ error: `unable to load file`, details: err });
       } else {
         if (format != null && format != 'none') {
-          clang_format(data, format, function(contents) {
-            res.json({ contents: contents });
+          clang_format(data, format, (err, contents) => {
+            if (err) {
+              res.json({ error: 'error formatting contents', details: err });
+            } else {
+              res.json({ contents: contents });
+            }
           });
         } else {
           res.json({ contents: data });
@@ -35,7 +37,31 @@ app.get('/api/file', (req, res) => {
       }
     });
   } else {
-    res.json({ error: 'no path specified' });
+    res.json({ error: 'must specify a path' });
+  }
+});
+
+function list_files(path, cb) {
+  if (process.env.SVN_URL) {
+    svn.list_files(process.env.SVN_URL + '/' + path, cb);
+  } else {
+    cb('not implemented', null);
+  }
+}
+
+app.get('/api/list', (req, res) => {
+  const path = req.query.path;
+  const format = req.query.format;
+  if (path != null) {
+    list_files(path, (err, files) => {
+      if (err) {
+        res.json({ error: 'unable to list file', details: err });
+      } else {
+        res.json({ contents: files });
+      }
+    });
+  } else {
+    res.json({ error: 'must specify a path' });
   }
 });
 
