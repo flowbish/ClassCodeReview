@@ -9,7 +9,7 @@ import NotFound from './components/NotFound';
 
 const Routes = (props) => (
   <Router {...props}>
-    <Route path="/" component={ViewFile} />
+    <Route path="/" component={Login} />
     <Route path="/login" component={Login} />
     <Route path="/dashboard" component={DashBoard} />
     <Route path="/project" component={Project} />
