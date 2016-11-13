@@ -8,13 +8,6 @@ import TreeNav from '../TreeNav';
 const avatar = 'https://avatars0.githubusercontent.com/u/4381236';
 const url= '/api/list/?path=.';
 
-function buildForest(fs) {
-  var forest = "";
-  for(var name in fs) {
-      forest += `<ol className="tree"><TreeNav data=${fs[name]} name=${name}/></ol>`;
-  }
-  return "<p>hello</p>";
-}
 class Project extends Component {
   /* Boiler Plate to set the theme to MUI for material UI */
   static childContextTypes = {
@@ -24,7 +17,7 @@ class Project extends Component {
   getChildContext() {
     return {
       muiTheme: getMuiTheme()
-    }
+    };
   }
 
 
@@ -33,29 +26,29 @@ class Project extends Component {
       <div className="Project">
         <TopNav avatar={avatar} title="Project"/>
         <Request
-        url={url}
-        method='get'
-        accept='application/json'
-        verbose={true}
-        >
-        {
-          ({error, result, loading}) => {
-            if (loading) {
-              return <div>loading...</div>;
-            } else {
-              if (result.body.error == null) {
-                const fs = result.body.contents;
-                return <div> {
-                  Object.keys(fs).map((name) => {
-                    return <ol className="tree"><TreeNav data={fs[name]} name={name}/></ol>;
-                  })
-                } </div>;
+          url={url}
+          method='get'
+          accept='application/json'
+          verbose={true}
+          >
+          {
+            ({error, result, loading}) => {
+              if (loading) {
+                return <div>loading...</div>;
               } else {
-                return <div>Unable to load url: {this.props.url}></div>;
+                if (result.body.error == null) {
+                  const fs = result.body.contents;
+                  return <div> {
+                    Object.keys(fs).map((name) => {
+                      return <ol className="tree"><TreeNav data={fs[name]} name={name}/></ol>;
+                    })
+                  } </div>;
+                } else {
+                  return <div>Unable to load url: {this.props.url}></div>;
+                }
               }
             }
           }
-        }
         </Request>
       </div>
     );
