@@ -2,17 +2,17 @@ pre {
     counter-reset:line;
 }
 
-code > div > span {
+.line {
     counter-increment:line;
 }
 
-code > div > span:before {
+.line:before {
     content: counter(line);
     width: 2em;
     display: inline-block;
     border-right: 1px solid black;
 }
 
-code > div:hover {
+.line:hover {
     background-color:#FCFF75;
 }
