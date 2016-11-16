@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import Request from 'react-http-request';
-import Highlight from 'react-highlight';
 import CircularProgress from 'material-ui/CircularProgress';
 
 import Line from '../Line';
 
-import './lineNumbers.css';
-
 class File extends Component {
-  showCommentBox(lineNumber) {
-      alert(""+lineNumber);
-  }
   render() {
     return (
-      <div className="File">
         <Request
         url={this.props.url}
         method='get'
@@ -26,21 +19,20 @@ class File extends Component {
               return <CircularProgress size={200} thickness={15} />
             } else {
               if (result.body.error == null) {
-                  return <Highlight>
+                  return <div className="file">
                   {
                       result.body.contents.split("\n").map((line, lineNumber) => {
                           return <Line id={lineNumber} text={line}/>;
                       })
                   }
-                  </Highlight>;
+                  </div>;
               } else {
-                return <Highlight>Unable to load url: {this.props.url}</Highlight>;
+                return <h2>Unable to load url: {this.props.url}</h2>;
               }
             }
           }
         }
         </Request>
-      </div>
     );
   }
 }

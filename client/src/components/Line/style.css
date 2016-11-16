@@ -1,12 +1,19 @@
+
+code.hljs{
+    padding:0;
+}
+
 pre {
+    margin:0;
+}
+
+.file{
     counter-reset:line;
 }
 
-.line {
-    counter-increment:line;
-}
 
 .line:before {
+    counter-increment:line;
     content: counter(line);
     width: 2em;
     display: inline-block;
