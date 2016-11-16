@@ -1,0 +1,39 @@
+
+code.hljs{
+    padding:0;
+}
+
+pre {
+    margin:0;
+}
+
+.file{
+    counter-reset:line;
+}
+
+
+.line:before {
+    counter-increment:line;
+    content: counter(line);
+    width: 2em;
+    display: inline-block;
+    border-right: 1px solid black;
+}
+
+.line:hover {
+    background-color:#FCFF75;
+}
+
+.commentBox {
+    width: 60%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.md-editor-menu {
+    display:none !important;
+}
+
+.md-editor-textarea {
+    width: 99% !important;
+}

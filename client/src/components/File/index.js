@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import Request from 'react-http-request';
-import Highlight from 'react-highlight';
+import CircularProgress from 'material-ui/CircularProgress';
+
+import Line from '../Line';
 
 class File extends Component {
   render() {
     return (
-      <div className="File">
         <Request
         url={this.props.url}
         method='get'
@@ -15,18 +16,23 @@ class File extends Component {
         {
           ({error, result, loading}) => {
             if (loading) {
-              return <Highlight>loading...</Highlight>;
+              return <CircularProgress size={200} thickness={15} />
             } else {
               if (result.body.error == null) {
-                return <Highlight>{result.body.contents}</Highlight>;
+                  return <div className="file">
+                  {
+                      result.body.contents.split("\n").map((line, lineNumber) => {
+                          return <Line lineNumber={lineNumber} text={line}/>;
+                      })
+                  }
+                  </div>;
               } else {
-                return <Highlight>Unable to load url: {this.props.url}</Highlight>;
+                return <h2>Unable to load url: {this.props.url}</h2>;
               }
             }
           }
         }
         </Request>
-      </div>
     );
   }
 }
