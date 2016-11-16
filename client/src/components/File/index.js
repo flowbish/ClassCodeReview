@@ -3,6 +3,7 @@ import Request from 'react-http-request';
 import CircularProgress from 'material-ui/CircularProgress';
 
 import Line from '../Line';
+import Toggle from './toggle.js';
 
 class File extends Component {
   render() {
@@ -22,7 +23,7 @@ class File extends Component {
                   return <div className="file">
                   {
                       result.body.contents.split("\n").map((line, lineNumber) => {
-                          return <Line id={lineNumber} text={line}/>;
+                          return <Line lineNumber={lineNumber} text={line}/>;
                       })
                   }
                   </div>;
