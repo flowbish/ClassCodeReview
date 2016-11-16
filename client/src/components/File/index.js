@@ -22,7 +22,7 @@ class File extends Component {
               if (result.body.error == null) {
                   return <Highlight>{
                       result.body.contents.split("\n").map(line => {
-                          return <span>&nbsp;{line.concat("\n")}</span>}
+                          return <div><span>&nbsp;{line.concat("\n")}</span></div>}
                           )}
                     </Highlight>;
               } else {
