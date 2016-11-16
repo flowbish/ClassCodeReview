@@ -61,7 +61,8 @@ class Svn {
   }
 
   list_files(url, cb) {
-    this.svn.list(url, this.params, (err, data) => {
+    const params = Object.assign({ depth: 'infinity' }, this.params);
+    this.svn.list(url, params, (err, data) => {
       if (err != null) {
         cb(err, null);
       } else {

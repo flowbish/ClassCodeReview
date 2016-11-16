@@ -6,17 +6,15 @@ import TopNav from '../TopNav';
 import TreeNav from '../TreeNav';
 
 const avatar = 'https://avatars0.githubusercontent.com/u/4381236';
-const fs = {
-    "root": {
-        "a": {},
-        "b": {
-            "b1": {},
-            "b2": {}
-        },
-        "c": {}
-    }
-};
+const url= '/api/list/?path=.';
 
+function buildForest(fs) {
+  var forest = "";
+  for(var name in fs) {
+      forest += `<ol className="tree"><TreeNav data=${fs[name]} name=${name}/></ol>`;
+  }
+  return "<p>hello</p>";
+}
 class Project extends Component {
   /* Boiler Plate to set the theme to MUI for material UI */
   static childContextTypes = {
@@ -29,16 +27,13 @@ class Project extends Component {
     }
   }
 
+
   render() {
-      var files = [];
-      for(var name in fs) {
-          files.push(<ol className="tree"><TreeNav children={fs[name]} name={name}/></ol>);
-      }
     return (
       <div className="Project">
         <TopNav avatar={avatar} title="Project"/>
-        {/*<Request
-        url='https://api.github.com/users/mbasso'
+        <Request
+        url={url}
         method='get'
         accept='application/json'
         verbose={true}
@@ -49,15 +44,19 @@ class Project extends Component {
               return <div>loading...</div>;
             } else {
               if (result.body.error == null) {
-                return <div>{files}</div>;
+                const fs = result.body.contents;
+                return <div> {
+                  Object.keys(fs).map((name) => {
+                    return <ol className="tree"><TreeNav data={fs[name]} name={name}/></ol>;
+                  })
+                } </div>;
               } else {
                 return <div>Unable to load url: {this.props.url}></div>;
               }
             }
           }
         }
-        </Request>*/}
-        {files}
+        </Request>
       </div>
     );
   }
