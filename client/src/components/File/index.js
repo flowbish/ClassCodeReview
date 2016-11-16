@@ -3,7 +3,6 @@ import Request from 'react-http-request';
 import CircularProgress from 'material-ui/CircularProgress';
 
 import Line from '../Line';
-import Toggle from './toggle.js';
 
 class File extends Component {
   render() {

@@ -23,3 +23,17 @@ pre {
 .line:hover {
     background-color:#FCFF75;
 }
+
+.commentBox {
+    width: 60%;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.md-editor-menu {
+    display:none !important;
+}
+
+.md-editor-textarea {
+    width: 99% !important;
+}

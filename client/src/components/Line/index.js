@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import Highlight from 'react-highlight';
+import RaisedButton from 'material-ui/RaisedButton';
+var MarkdownEditor = require('react-markdown-editor').MarkdownEditor;
 
 import './style.css'
 
 class CommentBox extends Component {
 	render() {
 		return (
-			<div>this is a comment box</div>
+            <div className="commentBox">
+                <MarkdownEditor initialContent="Test" iconsSet="materialize-ui"/>
+                <RaisedButton label="Submit Changes" fullWidth={true} />
+            </div>
 		);
 	}	
 }
@@ -27,15 +32,17 @@ class Line extends Component {
   }
   render() {
     return (
-        <div className="lineButton" onClick={this.handleClick}>
-        <Highlight>
-              <div
-                className="line"
-                id = {this.props.lineNumber}
-                >
-                {this.props.text.concat("\n")}
-              </div>
-            </Highlight>
+        <div>
+            <div onClick={this.handleClick}>
+                <Highlight>
+                  <div
+                    className="line"
+                    id = {this.props.lineNumber}
+                    >
+                    {this.props.text.concat("\n")}
+                  </div>
+                </Highlight>
+            </div>
         	{this.state.isToggleOn ? <CommentBox/> : null}
         </div>
     );
