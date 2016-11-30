@@ -43,15 +43,14 @@ class Login extends Component {
 
     request.done((user) => {
       this.props.login(user);
-      alert("hello");
     });
+
     request.fail(() => {
       this.setState({
         disabled: false,
         message: 'Invalid NetID or password.',
         password: ''
       });
-      alert("fail");
     });
   }
 
@@ -69,6 +68,7 @@ class Login extends Component {
       <div className="Login">
         <Card>
         <CardTitle title="Class Code Review" subtitle="Login" />
+        <CardText>{this.state.message}</CardText>
         <CardText>
         <form action="/login">
             <TextField
