@@ -8,13 +8,6 @@ import TreeNav from '../TreeNav';
 const avatar = 'https://avatars0.githubusercontent.com/u/4381236';
 const url= '/api/list/?path=';
 
-function buildForest(fs) {
-  var forest = "";
-  for(var name in fs) {
-      forest += `<ol className="tree"><TreeNav data=${fs[name]} name=${name}/></ol>`;
-  }
-  return "<p>hello</p>";
-}
 class Project extends Component {
   /* Boiler Plate to set the theme to MUI for material UI */
   static childContextTypes = {
