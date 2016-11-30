@@ -1,12 +1,12 @@
 import express from 'express';
 import fs from 'fs';
 import bodyParser from 'body-parser';
-import passport from 'passport';
 import LdapStrategy from 'passport-ldapauth';
 import basicAuth from 'basic-auth';
 
 import Svn from './svn.js';
 import clang_format from './clang_format.js';
+import passport from './authentication.js';
 
 const app = express();
 const svn = new Svn();
@@ -15,32 +15,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(passport.initialize());
 
-passport.use(new LdapStrategy({
-  server: {
-    url: 'ldaps://ldap.illinois.edu',
-    bindCredentials: 'password',
-    searchBase: 'ou=people,dc=uiuc,dc=edu',
-    searchFilter: '(uid={{username}})',
-    tlsOptions: {
-      rejectUnauthorized: false
-    }
-  }
-}));
-
-passport.serializeUser((user, done) => {
-  console.log("serializeUser");
-  done("user");
+/**
+ * Login.
+ *
+ * Parameters:
+ *   username: NetID
+ *   password: Active Directory password
+ */
+app.post('/api/session', passport.authenticate('local'), function(req, res) {
+  res.send(req.user);
 });
 
-passport.deserializeUser((user, done) => {
-  console.log("deserializeUser");
-  done({id: "user"});
-});
-
-app.post('/login', passport.authenticate('ldapauth', {session: false}), (req, res) => {
-  console.log(req);
-  console.log(res);
-  req.send({status: 'ok'});
+/**
+ * Logout.
+ */
+app.delete('/api/session', function(req, res) {
+  req.logout();
+  res.status(204).end();
 });
 
 function load_file(path, cb) {
