@@ -88,6 +88,7 @@ class DashBoard extends Component {
 			  leftAvatar={
 				<Avatar src="https://avatars0.githubusercontent.com/u/4381236?v=3&s=466" />
 			  }
+              href="./Project?path=parmake"
 			>
 			  Parmake
 			</ListItem>
@@ -95,6 +96,7 @@ class DashBoard extends Component {
 			  leftAvatar={
 				<Avatar src="https://avatars0.githubusercontent.com/u/4381236?v=3&s=466" />
 			  }
+              href="./Project?path=malloc"
 			>
 			  Malloc
 			</ListItem>
@@ -102,6 +104,7 @@ class DashBoard extends Component {
 			  leftAvatar={
 				<Avatar src="https://avatars0.githubusercontent.com/u/4381236?v=3&s=466" />
 			  }
+              href="./Project?path=mapreduce"
 			>
 			  MapReduce
 			</ListItem>
