@@ -14,6 +14,7 @@ const svn = new Svn();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(passport.initialize());
+app.use(passport.session());
 
 /**
  * Login.
@@ -43,6 +44,9 @@ function load_file(path, cb) {
 }
 
 app.get('/api/file', (req, res) => {
+  if (req.session) {
+    console.log(req.session.passport.user);
+  }
   const path = req.query.path;
   const format = req.query.format;
   if (path != null) {
