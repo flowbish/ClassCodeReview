@@ -11,7 +11,7 @@ import NotFound from './components/NotFound';
 
 const Routes = (props) => (
   <Router {...props}>
-    <Route path="/" component={() => (<Login login={(user) => browserHistory.push('/project')} />)}/>
+    <Route path="/" component={() => (<Login login={(user) => browserHistory.push(`/project?path=${user.netid}`)} />)}/>
     <Route path="/dashboard" component={DashBoard} />
     <Route path="/project" component={Project} />
     <Route path="/file" component={ViewFile} />

@@ -8,7 +8,7 @@ class TreeNav extends Component {
     return (
       <span>
       {
-          this.props.data.type == "dir" ?
+          this.props.data.type === "dir" ?
           <li>
               <label htmlFor={this.props.name}>{this.props.name}</label>
               <input
@@ -18,12 +18,12 @@ class TreeNav extends Component {
               <ol>
                 {
                   Object.keys(this.props.data.files).map((name, index) => {
-                      return <TreeNav data={this.props.data.files[name]} name={name}/>;
+                    return <TreeNav data={this.props.data.files[name]} name={name} netid={this.props.netid}/>;
                   })
                 }
               </ol>
           </li>
-          : <li className="file"><a href={"/file?path=" + this.props.data.path}>{this.props.name}</a></li>
+          : <li className="file"><a href={"/file?path=" + this.props.netid + "/" + this.props.data.path}>{this.props.name}</a></li>
       }
       </span>
     );
