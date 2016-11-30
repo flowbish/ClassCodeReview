@@ -38,7 +38,7 @@ class Login extends Component {
                 type="password"
             />
             <br/>
-            <RaisedButton label="Login" fullWidth={true} />
+            <RaisedButton label="Login" fullWidth={true} href="./dashboard"/>
         </form>
         </CardText>
       </Card>
