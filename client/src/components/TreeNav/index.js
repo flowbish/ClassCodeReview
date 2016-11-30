@@ -25,7 +25,7 @@ class TreeNav extends Component {
               </ol>
           </li>
           : 
-          <li className="file"><a href={"/?path=" + this.props.data.path}>{this.props.name}</a></li>
+          <li className="file"><a href={"/?path=" + this.props.root + "/" + this.props.data.path}>{this.props.name}</a></li>
       }
       </span>
     );

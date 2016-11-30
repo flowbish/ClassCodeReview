@@ -47,7 +47,7 @@ class Project extends Component {
                 const fs = result.body.contents;
                 return <div> {
                   Object.keys(fs).map((name) => {
-                    return <ol className="tree"><TreeNav data={fs[name]} name={name}/></ol>;
+                    return <ol className="tree"><TreeNav data={fs[name]} name={name} root={this.props.location.query.path}/></ol>;
                   })
                 } </div>;
               } else {
