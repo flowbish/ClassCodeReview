@@ -5,31 +5,30 @@ var MarkdownEditor = require('react-markdown-editor').MarkdownEditor;
 
 import './style.css'
 
-class CommentBox extends Component {
-	render() {
-		return (
-            <div className="commentBox">
-                <MarkdownEditor initialContent="Test" iconsSet="materialize-ui"/>
-                <RaisedButton label="Submit Changes" fullWidth={true} />
-            </div>
-		);
-	}	
-}
-
 class Line extends Component {
   constructor(props) {
     super(props);
-    this.state = {isToggleOn: false};
+    this.state = {isToggleOn: false, content: ""};
 
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
   }
 
   handleClick() {
     this.setState(prevState => ({
-      isToggleOn: !prevState.isToggleOn
+      isToggleOn: !prevState.isToggleOn,
+      content: prevState.content
     }));
   }
+
+  handleContentChange(updatedContent) {
+      this.setState(prevState => ({
+          isToggleOn: prevState.isToggleOn,
+          content: updatedContent
+      }));
+  }
+
   render() {
     return (
         <div>
@@ -43,7 +42,20 @@ class Line extends Component {
                   </div>
                 </Highlight>
             </div>
-        	{this.state.isToggleOn ? <CommentBox/> : null}
+        	{
+                this.state.isToggleOn
+                ?
+                <div className="commentBox">
+                    <MarkdownEditor
+                        initialContent={this.state.content}
+                        onContentChange={this.handleContentChange}
+                        iconsSet="materialize-ui"
+                    />
+                    <RaisedButton label="Submit Changes" fullWidth={true} />
+                </div>
+                :
+                null
+            }
         </div>
     );
   }
