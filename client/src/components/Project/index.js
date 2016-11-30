@@ -6,7 +6,7 @@ import TopNav from '../TopNav';
 import TreeNav from '../TreeNav';
 
 const avatar = 'https://avatars0.githubusercontent.com/u/4381236';
-const url= '/api/list/?path=.';
+const url= '/api/list/?path=';
 
 function buildForest(fs) {
   var forest = "";
@@ -33,7 +33,7 @@ class Project extends Component {
       <div className="Project">
         <TopNav avatar={avatar} title="Project"/>
         <Request
-        url={url}
+        url={'/api/list/?path=' + this.props.location.query.path}
         method='get'
         accept='application/json'
         verbose={true}
